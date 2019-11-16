@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
 import { authService } from '../services/auth';
+import { newUser } from '../services/api';
 import history from '../util/history';
-import {Link} from 'react-router-dom';
-
-class Login extends Component  {
+class NewUser extends Component  {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,13 +13,21 @@ class Login extends Component  {
             history.push('/');
         }
     }
-    Login(event){
+    createUser(event){
         event.preventDefault();
+        let username = document.querySelector("#username").value;
         let email = document.querySelector("#email").value;
         let password = document.querySelector("#password").value;
-        authService.login(email, password).then((res)=>{
+        newUser({
+            user_name: username,
+            email: email,
+            password: password
+        }).then((res)=>{
             if(res === true){
-                history.push('/');       
+                // eslint-disable-next-line no-undef
+                alertify.success("Account created, Please login")
+                history.push('/login');       
+                
             }
         }).catch(e=>{
             // eslint-disable-next-line no-undef
@@ -34,8 +41,16 @@ class Login extends Component  {
                 <div className="col-md-8 offset-md-2">
                     <div className="card">
                         <div className="card-body">
-                            <h5 className="card-title">Login</h5>
-                            <form onSubmit={this.Login}>
+                            <h5 className="card-title">Registration</h5>
+                            <form onSubmit={this.createUser}>
+                                <div className="form-group">
+                                    <input
+                                        className="form-control"
+                                        name="username"
+                                        placeholder="Username"
+                                        id="username"
+                                    ></input>
+                                </div>
                                 <div className="form-group">
                                     <input
                                         className="form-control"
@@ -57,11 +72,10 @@ class Login extends Component  {
                                     <button
                                         className="btn btn-success"
                                     >
-                                        Login
+                                        Register
                                 </button>
                                 </div>
                             </form>
-                            <Link to="/register">Register</Link>
                         </div>
                     </div>
                 </div>
@@ -72,4 +86,4 @@ class Login extends Component  {
         }
 };
 
-export default Login
+export default NewUser

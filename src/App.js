@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Login from './components/login';
+import NewUser from './components/newUser';
 import Header from './components/header';
 import Dashboard from './components/dashboard';
 import history from './util/history';
@@ -15,6 +16,12 @@ class App extends Component {
             <div className="App">
               <Header/>
               <Login />
+            </div>
+          )}/>
+          <Route exact={true} path='/register' render={() => (
+            <div className="App">
+              <Header/>
+              <NewUser />
             </div>
           )}/>
           <Route exact={true} path='/' render={() => (

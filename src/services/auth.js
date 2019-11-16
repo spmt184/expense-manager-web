@@ -4,7 +4,7 @@ import {config} from '../config';
 import { handleResponse } from '../util/handleResponse';
 import { Promise } from 'q';
 
-const currentUserSubject = new BehaviorSubject(localStorage.getItem('currentUser'));
+const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
 export const authService = {
     login,
@@ -22,9 +22,13 @@ function login(username, password) {
 
     return fetch(`${config.apiUrl}/api/v1/login`, requestOptions)
         .then(handleResponse)
-        .then(user => {
+        .then(res => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', user.token);
+            let user = {
+                token: res.token,
+                email: username
+            }
+            localStorage.setItem('currentUser', JSON.stringify(user));
             currentUserSubject.next(user);
 
             return true;
