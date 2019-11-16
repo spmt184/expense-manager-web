@@ -15,7 +15,7 @@ class Dashboard extends Component  {
                     </tr>
                 </thead>
                 <tbody>
-            {this.props.length > 0 ?
+            {this.props.expenses.length > 0 ?
                 this.props.expenses.map(expense =>
                     <tr>
                         <td>{expense.date_added}</td>
